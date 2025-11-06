@@ -13,6 +13,12 @@
 	<named-query name="WorkOrder.findByIds">
 		<query>select w from WorkOrder w where w.id in ?1</query>
 	</named-query>
+	
+	<named-query name="WorkOrder.findNotInvoicedWorkOrdersByClientNif">
+		<query>select w from WorkOrder w where w.vehicle.client.nif = ?1 and 
+			   w.state = ?2
+	    </query>
+	</named-query>
 
 	<!-- PaymentMean queries -->
 	<named-query name="PaymentMean.findByInvoiceId">

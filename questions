@@ -1,1 +1,3 @@
 1 - ¿Un setState publico en WorkOrder ?
+2 - ¿Se llama al updated now simepre que se haga un cambio en un atributo dle objeto?
+3 - ¿Enums en jpql?

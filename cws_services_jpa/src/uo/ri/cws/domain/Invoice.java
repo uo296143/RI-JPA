@@ -107,6 +107,7 @@ public class Invoice extends BaseEntity {
         ArgumentChecks
             .isTrue(workOrder.getState().equals(WorkOrderState.FINISHED));
         Associations.Bills.link(this, workOrder);
+        workOrder.markAsInvoiced();
         computeAmount();
     }
 
@@ -124,8 +125,7 @@ public class Invoice extends BaseEntity {
     public void removeWorkOrder(WorkOrder workOrder) {
         ArgumentChecks.isTrue(workOrders.contains(workOrder));
         ArgumentChecks.isTrue(state.equals(InvoiceState.NOT_YET_PAID));
-
-        workOrder.setState(WorkOrderState.FINISHED);
+        workOrder.markAsFinished();
         workOrders.remove(workOrder);
         computeAmount();
     }

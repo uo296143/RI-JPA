@@ -80,7 +80,13 @@ public class WorkOrder extends BaseEntity {
      *                               invoice
      */
     public void markAsInvoiced() {
-
+        if (!state.equals(WorkOrderState.FINISHED)) {
+            throw new IllegalStateException(
+                    "The invoice must be finished to be invoiced");
+        }
+        ArgumentChecks.isNotNull(invoice);
+        state = WorkOrderState.INVOICED;
+        updatedNow();
     }
 
     /**
@@ -103,7 +109,11 @@ public class WorkOrder extends BaseEntity {
      * @throws IllegalStateException if - The work order is not INVOICED, or
      */
     public void markBackToFinished() {
-
+        if (!state.equals(WorkOrderState.INVOICED)) {
+            throw new IllegalStateException("The invoice must be invoiced");
+        }
+        state = WorkOrderState.FINISHED;
+        updatedNow();
     }
 
     /**
@@ -165,9 +175,8 @@ public class WorkOrder extends BaseEntity {
         this.invoice = invoice;
     }
 
-    public Object getMechanic() {
-        // TODO Auto-generated method stub
-        return null;
+    public Mechanic getMechanic() {
+        return mechanic;
     }
 
     public boolean isFinished() {

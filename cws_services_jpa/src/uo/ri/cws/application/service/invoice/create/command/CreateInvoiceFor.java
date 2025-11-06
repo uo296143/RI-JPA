@@ -38,7 +38,6 @@ public class CreateInvoiceFor implements Command<InvoiceDto> {
         List<WorkOrder> workOrders = checkWorkOrdersAreCorrect(workOrderIds);
         long number = invoice_repo.getNextInvoiceNumber();
         Invoice invoice = new Invoice(number, workOrders);
-        workOrders.forEach(w -> w.setState(WorkOrderState.INVOICED));
         invoice_repo.add(invoice);
         return DtoAssembler.toDto(invoice);
 

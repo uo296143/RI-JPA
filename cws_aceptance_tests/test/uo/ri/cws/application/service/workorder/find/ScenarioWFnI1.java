@@ -19,27 +19,30 @@ import uo.ri.util.exception.BusinessException;
  * Scenario: [W.FnI.1] Find not invoiced workorders by client nif
  */
 public class ScenarioWFnI1 {
-	private InvoicingService service = Factories.service.forCreateInvoiceService();
+    private InvoicingService service = Factories.service
+        .forCreateInvoiceService();
 
-	private List<TWorkOrdersRecord> workOrders;
-	private TClientsRecord client;
-	private List<InvoicingWorkOrderDto> found;
+    private List<TWorkOrdersRecord> workOrders;
+    private TClientsRecord client;
+    private List<InvoicingWorkOrderDto> found;
 
-	@Given("[W.FnI.1] a client registered with a vehicle and a list of several finished workorders")
+    @Given("[W.FnI.1] a client registered with a vehicle and a list of several finished workorders")
     public void givenClientWithVehicleAndSeveralFinishedWorkorders() {
-		client = DbFixtures.aClient();
-    	workOrders = DbFixtures.someWorkordersFinishedWithVehicleForClient( client.id );
+        client = DbFixtures.aClient();
+        workOrders = DbFixtures
+            .someWorkordersFinishedWithVehicleForClient(client.id);
     }
 
     @When("[W.FnI.1] I search not invoiced workorders by client nif")
-    public void whenISearchNotInvoicedWorkordersByClientNif() throws BusinessException {
-    	found = service.findNotInvoicedWorkOrdersByClientNif(client.nif);
+    public void whenISearchNotInvoicedWorkordersByClientNif()
+            throws BusinessException {
+        found = service.findNotInvoicedWorkOrdersByClientNif(client.nif);
     }
 
     @Then("[W.FnI.1] I get only finished workorders")
     public void thenIGetOnlyFinishedWorkorders() {
-    	assertEquals( workOrders.size(), found.size() );
-    	found.forEach( wo -> assertEquals("FINISHED", wo.state) );
+        assertEquals(workOrders.size(), found.size());
+        found.forEach(wo -> assertEquals("FINISHED", wo.state));
     }
 
 }
