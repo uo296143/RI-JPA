@@ -8,18 +8,21 @@ import uo.ri.cws.domain.Payroll;
 
 public interface PayrollRepository extends Repository<Payroll> {
 
-	List<Payroll> findByContract(String contractId);
+    List<Payroll> findByContract(String contractId);
 
-	List<Payroll> findLastMonthPayrolls();
+    List<Payroll> findLastMonthPayrolls();
 
-	Optional<Payroll> findLastPayrollByMechanicId(String mechanicId);
+    Optional<Payroll> findLastPayrollByMechanicId(String mechanicId);
 
-	Optional<Payroll> findByContractIdAndDate(String id, LocalDate date);
-	
-	List<Payroll> findAll();
+    Optional<Payroll> findByContractIdAndDate(String id, LocalDate date);
 
-	List<Payroll> findByProfessionalGroupName(String name);
+    List<Payroll> findAll();
 
-	List<Payroll> findByMechanicId(String id);
+    List<Payroll> findByProfessionalGroupName(String name);
+
+    List<Payroll> findByMechanicId(String id);
+
+    double grossSalaryOfTheLastYear(String id, LocalDate endDateOneYearAgo,
+            LocalDate endDate);
 
 }

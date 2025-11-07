@@ -26,6 +26,11 @@ public class ContractType extends BaseEntity {
 
     }
 
+    public ContractType(String name, double compensationDaysPerYear) {
+        this.name = name;
+        this.compensationDaysPerYear = compensationDaysPerYear;
+    }
+
     public String getName() {
         return name;
     }
