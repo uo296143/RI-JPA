@@ -26,6 +26,13 @@ public class ProfessionalGroup extends BaseEntity {
 
     }
 
+    public ProfessionalGroup(String name, double trienniumSalary,
+            double productivityPlus) {
+        this.name = name;
+        this.trienniumPayment = trienniumSalary;
+        this.productivityRate = productivityPlus;
+    }
+
     public String getName() {
         return name;
     }

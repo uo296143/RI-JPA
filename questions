@@ -6,3 +6,4 @@
 	en el DtoAssembler de ContractType (ContractTypeOfContractDto -> ContractType)
 5 - ¿Desde AddContract se puede acceder a TerminateContract?
 6 - ¿Lo de endDate?
+7 - ¿FindContractById puede lanzar BusinessExceptino si el mecanico no existe?

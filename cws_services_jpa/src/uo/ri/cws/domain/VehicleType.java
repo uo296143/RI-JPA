@@ -8,48 +8,51 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import uo.ri.cws.domain.base.BaseEntity;
+
 @Entity
 @Table(name = "TVEHICLETYPES")
-public class VehicleType extends BaseEntity{
+public class VehicleType extends BaseEntity {
     @Column(unique = true)
-	private String name;
-	private double pricePerHour;
+    private String name;
+    private double pricePerHour;
 
-	@OneToMany(mappedBy = "vehicleType")
-	private Set<Vehicle> vehicles = new HashSet<>();
+    @OneToMany(mappedBy = "vehicleType")
+    private Set<Vehicle> vehicles = new HashSet<>();
 
-	VehicleType(){
-	    
-	}
+    VehicleType() {
 
-	public VehicleType(String name, double pricePerHour) {
-		super();
-		this.name = name;
-		this.pricePerHour = pricePerHour;
-	}
+    }
 
-	public String getName() {
-		return name;
-	}
+    public VehicleType(String name, double pricePerHour) {
+        super();
+        this.name = name;
+        this.pricePerHour = pricePerHour;
+    }
 
-	public double getPricePerHour() {
-		return pricePerHour;
-	}
+    public VehicleType(String name) {
+        this.name = name;
+    }
 
-	public Set<Vehicle> getVehicles() {
+    public String getName() {
+        return name;
+    }
+
+    public double getPricePerHour() {
+        return pricePerHour;
+    }
+
+    public Set<Vehicle> getVehicles() {
         return Set.copyOf(vehicles);
     }
 
     Set<Vehicle> _getVehicles() {
-        return new HashSet<>( vehicles );
+        return new HashSet<>(vehicles);
     }
 
-	@Override
-	public String toString() {
-		return "VehicleType [name=" + name + ", pricePerHour=" + pricePerHour
-				+ ", vehicles=" + vehicles + "]";
-	}
-	
-	
+    @Override
+    public String toString() {
+        return "VehicleType [name=" + name + ", pricePerHour=" + pricePerHour
+                + ", vehicles=" + vehicles + "]";
+    }
 
 }

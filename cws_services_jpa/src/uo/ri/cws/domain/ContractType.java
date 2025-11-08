@@ -39,4 +39,8 @@ public class ContractType extends BaseEntity {
         return compensationDaysPerYear;
     }
 
+    public Set<Contract> getContracts() {
+        return new HashSet<Contract>(contracts);
+    }
+
 }

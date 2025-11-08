@@ -1,12 +1,14 @@
 package uo.ri.cws.domain;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import uo.ri.cws.domain.Contract.ContractState;
 import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
 
@@ -42,6 +44,10 @@ public class Mechanic extends BaseEntity {
         this.nif = nif;
         this.name = name;
         this.surname = surname;
+    }
+
+    public Mechanic(String nif) {
+        this.nif = nif;
     }
 
     public Set<WorkOrder> getAssigned() {
@@ -93,6 +99,16 @@ public class Mechanic extends BaseEntity {
         ArgumentChecks.isNotBlank(surName, "Invalid null or blank surname");
         updatedNow();
         this.surname = surName;
+    }
+
+    public Optional<Contract> getContractInForce() {
+        Optional<Contract> contract = Optional.empty();
+        for (Contract c : contracts) {
+            if (c.getState().equals(ContractState.IN_FORCE)) {
+                contract = Optional.of(c);
+            }
+        }
+        return contract;
     }
 
 }

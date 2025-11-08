@@ -16,20 +16,30 @@ public class ContractJpaRepository extends BaseJpaRepository<Contract>
 
     @Override
     public List<Contract> findAll() {
-        // TODO Auto-generated method stub
-        return null;
+
+        return Jpa.getManager()
+            .createNamedQuery("Contract.findAll", Contract.class)
+            .getResultList();
+
     }
 
     @Override
     public List<Contract> findAllInForce() {
-        // TODO Auto-generated method stub
-        return null;
+
+        return Jpa.getManager()
+            .createNamedQuery("Contract.findAllInForce", Contract.class)
+            .getResultList();
+
     }
 
     @Override
     public List<Contract> findByMechanicId(String id) {
-        // TODO Auto-generated method stub
-        return null;
+
+        return Jpa.getManager()
+            .createNamedQuery("Contract.findByMechanicId", Contract.class)
+            .setParameter(1, id)
+            .getResultList();
+
     }
 
     @Override

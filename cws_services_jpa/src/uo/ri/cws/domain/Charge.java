@@ -53,8 +53,12 @@ public class Charge extends BaseEntity {
         return invoice;
     }
 
-    public Object getPaymentMean() {
+    public PaymentMean getPaymentMean() {
         return paymentMean;
+    }
+
+    public double getAmount() {
+        return amount;
     }
 
 }

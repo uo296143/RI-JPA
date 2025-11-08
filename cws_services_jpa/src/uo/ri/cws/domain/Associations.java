@@ -125,4 +125,17 @@ public class Associations {
         }
     }
 
+    public static class Binds {
+
+        static void link(Mechanic mechanic, Contract contract) {
+            mechanic._getContracts().add(contract);
+            contract._setMechanic(mechanic);
+        }
+
+        public static void unlink(Contract contract) {
+            contract.getMechanic().getContracts().remove(contract);
+            contract._setMechanic(null);
+        }
+    }
+
 }

@@ -62,6 +62,7 @@ public class Contract extends BaseEntity {
         this.state = ContractState.IN_FORCE;
         this.startDate = Dates.firstDayOfNextMonth();
         this.taxRate = forSalary(annualBaseSalary);
+        Associations.Binds.link(mechanic, this);
     }
 
     public Contract(Mechanic mechanic, ContractType contractType,
@@ -76,6 +77,30 @@ public class Contract extends BaseEntity {
         this.state = ContractState.IN_FORCE;
         this.startDate = Dates.firstDayOfNextMonth();
         this.taxRate = forSalary(annualBaseSalary);
+        Associations.Binds.link(mechanic, this);
+    }
+
+    public Contract(Mechanic mechanic, ContractType contractType,
+            ProfessionalGroup group, LocalDate signingDate, LocalDate endDate,
+            double annualSalary) {
+        this.mechanic = mechanic;
+        this.contractType = contractType;
+        this.professionalGroup = group;
+        this.startDate = signingDate;
+        this.endDate = endDate;
+        this.annualBaseSalary = annualSalary;
+        Associations.Binds.link(mechanic, this);
+    }
+
+    public Contract(Mechanic mechanic, ContractType type,
+            ProfessionalGroup group, LocalDate signingDate,
+            double annualSalary) {
+        this.mechanic = mechanic;
+        this.contractType = type;
+        this.professionalGroup = group;
+        this.startDate = signingDate;
+        this.annualBaseSalary = annualSalary;
+        Associations.Binds.link(mechanic, this);
     }
 
     private double forSalary(double annualSalary) {
@@ -101,6 +126,14 @@ public class Contract extends BaseEntity {
 
     public ContractType getContractType() {
         return contractType;
+    }
+
+    public void setAnnualBaseSalary(double annualBaseSalary) {
+        this.annualBaseSalary = annualBaseSalary;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public Mechanic getMechanic() {
@@ -137,6 +170,28 @@ public class Contract extends BaseEntity {
 
     void _setProfessionalGroup(ProfessionalGroup pg) {
         this.professionalGroup = pg;
+    }
+
+    public boolean isInForce() {
+        return state.equals(ContractState.IN_FORCE);
+    }
+
+    /**
+     * Se termina el contrato
+     * 
+     * @param endDate,fecha que finaliza el contrato, sea cual sea se considera
+     *                      el último día de ese mes.
+     */
+    public void terminate(LocalDate endDate) {
+
+    }
+
+    public boolean isTerminated() {
+        return state.equals(ContractState.TERMINATED);
+    }
+
+    Set<Payroll> _getPayrolls() {
+        return payrolls;
     }
 
 }

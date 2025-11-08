@@ -30,8 +30,13 @@ public class Payroll extends BaseEntity {
         // Associations.
     }
 
+    public Payroll(Contract c, LocalDate date) {
+        this.contract = c;
+        this.date = date;
+    }
+
     public double getBaseSalary() {
-        return BaseSalary;
+        return baseSalary;
     }
 
     public LocalDate getDate() {
@@ -60,6 +65,19 @@ public class Payroll extends BaseEntity {
 
     public Contract getContract() {
         return contract;
+    }
+
+    public double getGrossSalary() {
+        return baseSalary + extraSalary + productivityEarning
+                + trienniumEarning;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public double getMonthlyBaseSalary() {
+        return baseSalary;
     }
 
 }

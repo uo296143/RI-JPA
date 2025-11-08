@@ -50,13 +50,29 @@
 
 	<!-- Contract queries -->
 	<named-query name="Contract.findContractInForceByMechanicId">
-		<query>select c from Contract c where c.mechanic.id = ?1</query>
+		<query>select c from Contract c where c.mechanic.id = ?1 and 
+			   c.state = uo.ri.cws.domain.Contract.ContractState.IN_FORCE
+		</query>
 	</named-query>
 
 	<named-query name="Contract.terminateContract">
 		<query>update Contract c set c.state = ?3, c.endDate = ?2 
 			   where c.id = ?1
 		</query>
+	</named-query>
+	
+	<named-query name="Contract.findByMechanicId">
+		<query>select c from Contract c where c.mechanic.id = ?1</query>
+	</named-query>
+	
+	<named-query name="Contract.findAllInForce">
+		<query>select c from Contract c 
+			   where c.state = uo.ri.cws.domain.Contract.ContractState.IN_FORCE
+		</query>
+	</named-query>
+	
+	<named-query name="Contract.findAll">
+		<query>select c from Contract c </query>
 	</named-query>
 	
 	<named-query name="Contract.addSettlement">

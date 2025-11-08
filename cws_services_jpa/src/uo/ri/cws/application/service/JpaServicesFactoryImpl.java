@@ -15,9 +15,7 @@ import uo.ri.cws.application.service.payroll.crud.PayrollServiceImpl;
 import uo.ri.cws.application.service.professionalgroup.ProfessionalGroupCrudService;
 import uo.ri.cws.application.service.professionalgroup.crud.ProfessionalGroupCrudServiceImpl;
 import uo.ri.cws.application.service.spare.SparePartCrudService;
-import uo.ri.cws.application.service.spare.sparepart.SparePartCrudServiceImpl;
 import uo.ri.cws.application.service.vehicle.VehicleCrudService;
-import uo.ri.cws.application.service.vehicle.crud.VehicleCrudServiceImpl;
 import uo.ri.cws.application.service.vehicletype.VehicleTypeCrudService;
 import uo.ri.cws.application.service.workorder.CloseWorkOrderService;
 import uo.ri.cws.application.service.workorder.ViewAssignedWorkOrdersService;
@@ -26,75 +24,75 @@ import uo.ri.util.exception.NotYetImplementedException;
 
 public class JpaServicesFactoryImpl implements ServiceFactory {
 
-	@Override
-	public MechanicCrudService forMechanicCrudService() {
-		return new MechanicCrudServiceImpl();
-	}
+    @Override
+    public MechanicCrudService forMechanicCrudService() {
+        return new MechanicCrudServiceImpl();
+    }
 
-	@Override
-	public InvoicingService forCreateInvoiceService() {
-		return new InvoicingServiceImpl();
-	}
+    @Override
+    public InvoicingService forCreateInvoiceService() {
+        return new InvoicingServiceImpl();
+    }
 
-	@Override
-	public ContractCrudService forContractCrudService() {
-		return new ContractCrudServiceImpl();
-	}
+    @Override
+    public ContractCrudService forContractCrudService() {
+        return new ContractCrudServiceImpl();
+    }
 
-	@Override
-	public ContractTypeCrudService forContractTypeCrudService() {
-		return new ContractTypeCrudServiceImpl();
-	}
+    @Override
+    public ContractTypeCrudService forContractTypeCrudService() {
+        return new ContractTypeCrudServiceImpl();
+    }
 
-	@Override
-	public PayrollService forPayrollService() {
-		return new PayrollServiceImpl();
-	}
+    @Override
+    public PayrollService forPayrollService() {
+        return new PayrollServiceImpl();
+    }
 
-	@Override
-	public ProfessionalGroupCrudService forProfessionalGroupCrudService() {
-		return new ProfessionalGroupCrudServiceImpl();
-	}
+    @Override
+    public ProfessionalGroupCrudService forProfessionalGroupCrudService() {
+        return new ProfessionalGroupCrudServiceImpl();
+    }
 
-	// the not yet implemented section ------------------------------
-	@Override
-	public VehicleCrudService forVehicleCrudService() {
-		throw new NotYetImplementedException();
-	}
+    // the not yet implemented section ------------------------------
+    @Override
+    public VehicleCrudService forVehicleCrudService() {
+        throw new NotYetImplementedException();
+    }
 
-	@Override
-	public SparePartCrudService forSparePartCrudService() {
-		throw new NotYetImplementedException();
-	}
+    @Override
+    public SparePartCrudService forSparePartCrudService() {
+        throw new NotYetImplementedException();
+    }
 
-	@Override
-	public ClientCrudService forClientCrudService() {
-		throw new NotYetImplementedException();
-	}
+    @Override
+    public ClientCrudService forClientCrudService() {
+        throw new NotYetImplementedException();
+    }
 
-	@Override
-	public CloseWorkOrderService forClosingWorkOrder() {
-		throw new NotYetImplementedException();
-	}
+    @Override
+    public CloseWorkOrderService forClosingWorkOrder() {
+        throw new NotYetImplementedException();
+    }
 
-	@Override
-	public VehicleTypeCrudService forVehicleTypeCrudService() {
-		throw new NotYetImplementedException();
-	}
+    @Override
+    public VehicleTypeCrudService forVehicleTypeCrudService() {
+        throw new NotYetImplementedException();
+    }
 
-	@Override
-	public ClientHistoryService forClientHistoryService() {
-		throw new NotYetImplementedException();
-	}
+    @Override
+    public ClientHistoryService forClientHistoryService() {
+        throw new NotYetImplementedException();
+    }
 
-	@Override
-	public WorkOrderCrudService forWorkOrderService() {
-		throw new NotYetImplementedException();
-	}
+    @Override
+    public WorkOrderCrudService forWorkOrderService() {
+        throw new NotYetImplementedException();
+    }
 
-	@Override
-	public ViewAssignedWorkOrdersService forViewAssignedWorkOrdersService() {
-		throw new NotYetImplementedException();
-	}
+    @Override
+    public ViewAssignedWorkOrdersService forViewAssignedWorkOrdersService() {
+        throw new NotYetImplementedException();
+    }
 
 }

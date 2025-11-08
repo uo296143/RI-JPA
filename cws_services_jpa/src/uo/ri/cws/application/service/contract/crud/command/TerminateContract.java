@@ -32,7 +32,7 @@ public class TerminateContract implements Command<Void> {
         BusinessChecks
             .isTrue(contract.getState().equals(ContractState.IN_FORCE));
 
-        // contract_repo.
+        contract_repo.terminateContract(id);
         return null;
     }
 
