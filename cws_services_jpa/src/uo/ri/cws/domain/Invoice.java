@@ -11,7 +11,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import uo.ri.cws.domain.WorkOrder.WorkOrderState;
 import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
 import uo.ri.util.math.Rounds;
@@ -104,8 +103,7 @@ public class Invoice extends BaseEntity {
      */
     public void addWorkOrder(WorkOrder workOrder) {
         ArgumentChecks.isTrue(state.equals(InvoiceState.NOT_YET_PAID));
-        ArgumentChecks
-            .isTrue(workOrder.getState().equals(WorkOrderState.FINISHED));
+        ArgumentChecks.isTrue(workOrder.isFinished());
         Associations.Bills.link(this, workOrder);
         workOrder.markAsInvoiced();
         computeAmount();
@@ -124,8 +122,10 @@ public class Invoice extends BaseEntity {
      */
     public void removeWorkOrder(WorkOrder workOrder) {
         ArgumentChecks.isTrue(workOrders.contains(workOrder));
-        ArgumentChecks.isTrue(state.equals(InvoiceState.NOT_YET_PAID));
-        workOrder.markAsFinished();
+        if (!state.equals(InvoiceState.NOT_YET_PAID)) {
+            throw new IllegalStateException();
+        }
+        workOrder.markBackToFinished();
         workOrders.remove(workOrder);
         computeAmount();
     }
@@ -138,7 +138,13 @@ public class Invoice extends BaseEntity {
      *                               cover the total of the invoice
      */
     public void settle() {
-
+        if (isSettled()) {
+            throw new IllegalStateException();
+        }
+        if (getAmountAlreadyPaid() < amount) {
+            throw new IllegalStateException("All the amount hasn`t paid yet");
+        }
+        state = InvoiceState.PAID;
     }
 
     public Set<WorkOrder> getWorkOrders() {
@@ -171,6 +177,17 @@ public class Invoice extends BaseEntity {
 
     public double getVat() {
         return vat;
+    }
+
+    /*
+     * Retunr the full amount alrady paid by all the charges
+     */
+    private double getAmountAlreadyPaid() {
+        double totalAmountAlreadyPaid = 0;
+        for (Charge charges : charges) {
+            totalAmountAlreadyPaid += charges.getAmount();
+        }
+        return totalAmountAlreadyPaid;
     }
 
     /*

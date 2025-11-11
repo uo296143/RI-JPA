@@ -59,15 +59,25 @@ public class Associations {
         }
 
         public static void unlink(Invoice invoice, WorkOrder workOrder) {
+            invoice._getWorkOrders().remove(workOrder);
+            workOrder._setInvoice(null);
         }
     }
 
     public static class Settles {
 
         public static void link(Invoice invoice, Charge cargo, PaymentMean mp) {
+            invoice._getCharges().add(cargo);
+            cargo.setPaymentMean(mp);
+            cargo.setInvoice(invoice);
+            mp._getCharges().add(cargo);
         }
 
         public static void unlink(Charge cargo) {
+            cargo.setPaymentMean(null);
+            cargo.getInvoice().getCharges().remove(cargo);
+            cargo.getPaymentMean().getCharges().remove(cargo);
+            cargo.setInvoice(null);
         }
     }
 

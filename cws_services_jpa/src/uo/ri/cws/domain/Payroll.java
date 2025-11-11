@@ -80,4 +80,24 @@ public class Payroll extends BaseEntity {
         return baseSalary;
     }
 
+    /**
+     * Return net salary that is composed by :
+     * 
+     * @return
+     */
+    public double getNetSalary() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    /**
+     * Return the hole deductions of mechanic`s salary
+     * 
+     * @return
+     */
+    public double getTotalDeductions() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
 }

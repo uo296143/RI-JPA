@@ -98,7 +98,11 @@ public class WorkOrder extends BaseEntity {
      *                               state, or
      */
     public void markAsFinished() {
-
+        if (!isAssigned()) {
+            throw new IllegalStateException();
+        }
+        Associations.Bills.unlink(invoice, this);
+        state = WorkOrderState.FINISHED;
     }
 
     /**
@@ -109,9 +113,10 @@ public class WorkOrder extends BaseEntity {
      * @throws IllegalStateException if - The work order is not INVOICED, or
      */
     public void markBackToFinished() {
-        if (!state.equals(WorkOrderState.INVOICED)) {
+        if (!isInvoiced()) {
             throw new IllegalStateException("The invoice must be invoiced");
         }
+        Associations.Bills.unlink(invoice, this);
         state = WorkOrderState.FINISHED;
         updatedNow();
     }

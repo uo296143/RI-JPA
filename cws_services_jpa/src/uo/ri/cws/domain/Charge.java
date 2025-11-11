@@ -10,7 +10,6 @@ import uo.ri.util.assertion.ArgumentChecks;
 @Table(name = "TCHRGES")
 public class Charge extends BaseEntity {
     // natural attributes
-    @SuppressWarnings("unused")
     private double amount = 0.0;
 
     // accidental attributes
@@ -33,6 +32,10 @@ public class Charge extends BaseEntity {
      */
     public Charge(Invoice invoice, PaymentMean paymentMean, double amount) {
         ArgumentChecks.isNotNull(invoice, "Invoice´s charge can´t be null");
+        ArgumentChecks.isNotNull(paymentMean, "Payment mean can´t be null");
+        if (!paymentMean.canPay(amount)) {
+            throw new IllegalStateException();
+        }
         this.amount = amount;
         paymentMean.pay(amount);
         Associations.Settles.link(invoice, this, paymentMean);
@@ -53,8 +56,16 @@ public class Charge extends BaseEntity {
         return invoice;
     }
 
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
     public PaymentMean getPaymentMean() {
         return paymentMean;
+    }
+
+    public void setPaymentMean(PaymentMean paymentMean) {
+        this.paymentMean = paymentMean;
     }
 
     public double getAmount() {

@@ -1,5 +1,5 @@
 1 - ¿Un setState publico en WorkOrder ?
-2 - ¿Se llama al updated now simepre que se haga un cambio en un atributo dle objeto?
+2 - ¿Se llama al updated now simepre que se haga un cambio en un atributo del objeto?
 3 - ¿A añadir un contrato se comprueba que contractType no sea null o que contractType name?
 4 - Cuando añado un contrato me pasan un contractTypeDto y necesito un Contract 
     por lo que tengo que hacer una conversion, ¿puedo hacerla
@@ -7,3 +7,5 @@
 5 - ¿Desde AddContract se puede acceder a TerminateContract?
 6 - ¿Lo de endDate?
 7 - ¿FindContractById puede lanzar BusinessExceptino si el mecanico no existe?
+8 - Base de datos greenfield.
+9 - ¿El hash code y el equals hay que borrarlo de las entidades ?
