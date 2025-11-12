@@ -29,7 +29,7 @@ public class Vehicle extends BaseEntity {
 
     }
 
-    protected void _setClient(Client client) {
+    void _setClient(Client client) {
         this.client = client;
     }
 

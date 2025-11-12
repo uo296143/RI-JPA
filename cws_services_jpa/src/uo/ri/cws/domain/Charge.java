@@ -7,7 +7,7 @@ import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
 
 @Entity
-@Table(name = "TCHRGES")
+@Table(name = "TCHARGES")
 public class Charge extends BaseEntity {
     // natural attributes
     private double amount = 0.0;
@@ -56,7 +56,7 @@ public class Charge extends BaseEntity {
         return invoice;
     }
 
-    public void setInvoice(Invoice invoice) {
+    private void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
 
@@ -64,12 +64,21 @@ public class Charge extends BaseEntity {
         return paymentMean;
     }
 
-    public void setPaymentMean(PaymentMean paymentMean) {
+    private void setPaymentMean(PaymentMean paymentMean) {
         this.paymentMean = paymentMean;
     }
 
     public double getAmount() {
         return amount;
+    }
+
+    void _setPaymentMean(PaymentMean mp) {
+        this.paymentMean = mp;
+
+    }
+
+    void _setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 
 }

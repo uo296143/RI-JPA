@@ -42,11 +42,11 @@ public class VehicleType extends BaseEntity {
     }
 
     public Set<Vehicle> getVehicles() {
-        return Set.copyOf(vehicles);
+        return new HashSet<Vehicle>(vehicles);
     }
 
     Set<Vehicle> _getVehicles() {
-        return new HashSet<>(vehicles);
+        return vehicles;
     }
 
     @Override

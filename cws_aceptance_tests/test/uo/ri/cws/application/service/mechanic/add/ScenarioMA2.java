@@ -13,26 +13,27 @@ import uo.ri.cws.application.service.util.dbfixture.records.TMechanicsRecord;
 import uo.ri.cws.application.service.util.dtobuilders.MechanicDtoBuilder;
 
 public class ScenarioMA2 {
-	private ExceptionBox ctx = new ExceptionBox();
-	private MechanicCrudService service = Factories.service.forMechanicCrudService();
-	private String mechanicNif;
+    private ExceptionBox ctx = new ExceptionBox();
+    private MechanicCrudService service = Factories.service
+        .forMechanicCrudService();
+    private String mechanicNif;
 
-	@Given("[M.A.2] a registered mechanic")
-	public void givenAMechanic() {
-		TMechanicsRecord mechanic = DbFixtures.aMechanic();
-		mechanicNif = mechanic.nif;
-	}
+    @Given("[M.A.2] a registered mechanic")
+    public void givenAMechanic() {
+        TMechanicsRecord mechanic = DbFixtures.aMechanic();
+        mechanicNif = mechanic.nif;
+    }
 
-	@When("[M.A.2] I try to add a new mechanic with same nif")
-	public void whenITryToAddANewMechanicWithSameNif() {
-		MechanicDto dto = new MechanicDtoBuilder().withNif(mechanicNif).build();
+    @When("[M.A.2] I try to add a new mechanic with same nif")
+    public void whenITryToAddANewMechanicWithSameNif() {
+        MechanicDto dto = new MechanicDtoBuilder().withNif(mechanicNif).build();
 
-		ctx.tryAndKeep(() -> service.create(dto));
-	}
+        ctx.tryAndKeep(() -> service.create(dto));
+    }
 
-	@Then("[M.A.2] a business error happens with an explaining message")
-	public void thenABusinessErrorHappensWithAnExplainingMessage() {
-		ctx.assertBusinessExceptionWithMessage();
-	}
+    @Then("[M.A.2] a business error happens with an explaining message")
+    public void thenABusinessErrorHappensWithAnExplainingMessage() {
+        ctx.assertBusinessExceptionWithMessage();
+    }
 
 }

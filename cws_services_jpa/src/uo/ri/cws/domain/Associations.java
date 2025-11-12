@@ -32,9 +32,13 @@ public class Associations {
     public static class Holds {
 
         public static void link(PaymentMean mean, Client client) {
+            mean._setClient(client);
+            client._getPaymentMeans().add(mean);
         }
 
         public static void unlink(Client client, PaymentMean mean) {
+            client._getPaymentMeans().remove(mean);
+            mean._setClient(null);
         }
     }
 
@@ -68,16 +72,16 @@ public class Associations {
 
         public static void link(Invoice invoice, Charge cargo, PaymentMean mp) {
             invoice._getCharges().add(cargo);
-            cargo.setPaymentMean(mp);
-            cargo.setInvoice(invoice);
+            cargo._setPaymentMean(mp);
+            cargo._setInvoice(invoice);
             mp._getCharges().add(cargo);
         }
 
         public static void unlink(Charge cargo) {
-            cargo.setPaymentMean(null);
-            cargo.getInvoice().getCharges().remove(cargo);
-            cargo.getPaymentMean().getCharges().remove(cargo);
-            cargo.setInvoice(null);
+            cargo.getInvoice()._getCharges().remove(cargo);
+            cargo.getPaymentMean()._getCharges().remove(cargo);
+            cargo._setPaymentMean(null);
+            cargo._setInvoice(null);
         }
     }
 
@@ -100,17 +104,24 @@ public class Associations {
                 Mechanic mechanic) {
             intervention._setWorkOrder(workOrder);
             intervention._setMechanic(mechanic);
-            mechanic._getInterventions().add(intervention);
             workOrder._getInterventions().add(intervention);
+            mechanic._getInterventions().add(intervention);
+            mechanic._getWorkOrders().add(workOrder);
+            workOrder._setMechanic(mechanic);
         }
 
         public static void unlink(Intervention intervention) {
+            intervention.getWorkOrder()._setMechanic(null);
+            intervention.getMechanic()
+                ._getWorkOrders()
+                .remove(intervention.getWorkOrder());
             intervention.getMechanic()._getInterventions().remove(intervention);
             intervention.getWorkOrder()
                 ._getInterventions()
                 .remove(intervention);
             intervention._setMechanic(null);
             intervention._setWorkOrder(null);
+
         }
     }
 
@@ -131,7 +142,8 @@ public class Associations {
             substitution.getIntervention()
                 ._getSubstitutions()
                 .remove(substitution);
-
+            substitution._setIntervention(null);
+            substitution._setSparePart(null);
         }
     }
 
@@ -143,8 +155,48 @@ public class Associations {
         }
 
         public static void unlink(Contract contract) {
-            contract.getMechanic().getContracts().remove(contract);
+            contract.getMechanic()._getContracts().remove(contract);
             contract._setMechanic(null);
+        }
+    }
+
+    public static class Categorizes {
+
+        static void link(ProfessionalGroup professionalGroup,
+                Contract contract) {
+            professionalGroup._getContracts().add(contract);
+            contract._setProfessionalGroup(professionalGroup);
+        }
+
+        public static void unlink(Contract contract) {
+            contract.getProfessionalGroup()._getContracts().remove(contract);
+            contract._setProfessionalGroup(null);
+        }
+    }
+
+    public static class Defines {
+
+        static void link(ContractType contractType, Contract contract) {
+            contractType._getContracts().add(contract);
+            contract._setContractType(contractType);
+        }
+
+        public static void unlink(Contract contract) {
+            contract.getContractType()._getContracts().remove(contract);
+            contract._setContractType(null);
+        }
+    }
+
+    public static class Generates {
+
+        static void link(Payroll payroll, Contract contract) {
+            payroll._setContract(contract);
+            contract._getPayrolls().add(payroll);
+        }
+
+        public static void unlink(Payroll payroll) {
+            payroll.getContract()._getPayrolls().remove(payroll);
+            payroll._setContract(null);
         }
     }
 

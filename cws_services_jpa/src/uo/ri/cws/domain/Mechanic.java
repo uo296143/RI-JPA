@@ -63,7 +63,7 @@ public class Mechanic extends BaseEntity {
     }
 
     Set<Intervention> _getInterventions() {
-        return new HashSet<Intervention>(interventions);
+        return interventions;
     }
 
     public String getNif() {
@@ -85,8 +85,12 @@ public class Mechanic extends BaseEntity {
                 + interventions + "]";
     }
 
-    public Set<WorkOrder> _getWorkOrders() {
+    Set<WorkOrder> _getWorkOrders() {
         return assigned;
+    }
+
+    public Set<WorkOrder> getWorkOrders() {
+        return new HashSet<WorkOrder>(assigned);
     }
 
     public void setName(String name) {

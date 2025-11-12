@@ -1,5 +1,6 @@
 package uo.ri.cws.application.service.contract.crud.command;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import uo.ri.conf.Factories;
@@ -27,12 +28,13 @@ public class TerminateContract implements Command<Void> {
     public Void execute() throws BusinessException {
 
         Optional<Contract> optionalContract = contract_repo.findById(id);
-        Contract contract = optionalContract.get();
         BusinessChecks.exists(optionalContract);
+        Contract contract = optionalContract.get();
         BusinessChecks
             .isTrue(contract.getState().equals(ContractState.IN_FORCE));
 
-        contract_repo.terminateContract(id);
+        contract.terminate(LocalDate.now());
+
         return null;
     }
 

@@ -46,6 +46,10 @@ public class ProfessionalGroup extends BaseEntity {
     }
 
     public Set<Contract> getContracts() {
+        return new HashSet<Contract>(contracts);
+    }
+
+    Set<Contract> _getContracts() {
         return contracts;
     }
 

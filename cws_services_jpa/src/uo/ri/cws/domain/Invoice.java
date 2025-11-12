@@ -102,6 +102,7 @@ public class Invoice extends BaseEntity {
      * @throws IllegalStateException if the workorder status is not FINISHED
      */
     public void addWorkOrder(WorkOrder workOrder) {
+        ArgumentChecks.isNotNull(workOrder);
         ArgumentChecks.isTrue(state.equals(InvoiceState.NOT_YET_PAID));
         ArgumentChecks.isTrue(workOrder.isFinished());
         Associations.Bills.link(this, workOrder);

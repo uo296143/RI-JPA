@@ -3,41 +3,46 @@ package uo.ri.cws.application.service.contracttype.crud;
 import java.util.List;
 import java.util.Optional;
 
+import uo.ri.conf.Factories;
 import uo.ri.cws.application.service.contracttype.ContractTypeCrudService;
+import uo.ri.cws.application.service.contracttype.crud.command.AddContractType;
+import uo.ri.cws.application.service.contracttype.crud.command.DeleteContractType;
+import uo.ri.cws.application.service.contracttype.crud.command.FindAllContractTypes;
+import uo.ri.cws.application.service.contracttype.crud.command.FindContractTypeByName;
+import uo.ri.cws.application.service.contracttype.crud.command.UpdateContractType;
+import uo.ri.cws.application.util.command.CommandExecutor;
 import uo.ri.util.exception.BusinessException;
 
 public class ContractTypeCrudServiceImpl implements ContractTypeCrudService {
 
+    CommandExecutor executor = Factories.executor.forExecutor();
+
     @Override
     public void delete(String id) throws BusinessException {
-        // TODO Auto-generated method stub
-
+        executor.execute(new DeleteContractType(id));
     }
 
     @Override
     public ContractTypeDto create(ContractTypeDto dto)
             throws BusinessException {
-        // TODO Auto-generated method stub
-        return null;
+        return executor.execute(new AddContractType(dto));
     }
 
     @Override
     public void update(ContractTypeDto dto) throws BusinessException {
-        // TODO Auto-generated method stub
-
+        executor.execute(new UpdateContractType(dto));
     }
 
     @Override
     public Optional<ContractTypeDto> findByName(String name)
             throws BusinessException {
-        // TODO Auto-generated method stub
-        return Optional.empty();
+        return executor.execute(new FindContractTypeByName(name));
     }
 
     @Override
     public List<ContractTypeDto> findAll() throws BusinessException {
-        // TODO Auto-generated method stub
-        return null;
+        return executor.execute(new FindAllContractTypes());
+
     }
 
 }

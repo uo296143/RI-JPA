@@ -31,8 +31,13 @@ public class Intervention extends BaseEntity {
     @OneToMany(mappedBy = "intervention")
     private Set<Substitution> substitutions = new HashSet<>();
 
-    public Intervention(LocalDateTime date, int minutes, WorkOrder workOrder,
-            Mechanic mechanic) {
+    Intervention() {
+
+    }
+
+    public Intervention(Mechanic mechanic, WorkOrder workOrder,
+            LocalDateTime date, int minutes) {
+
         super();
         ArgumentChecks.isNotNull(mechanic, "Invalid null mechanic");
         ArgumentChecks.isNotNull(date, "Invalid null date");
@@ -42,25 +47,11 @@ public class Intervention extends BaseEntity {
         this.date = date.truncatedTo(ChronoUnit.MILLIS);
         this.minutes = minutes;
         Associations.Intervenes.link(workOrder, this, mechanic);
-    }
-
-    Intervention() {
 
     }
 
     public Intervention(Mechanic mechanic, WorkOrder workOrder, int minutes) {
-
-    }
-
-    public Intervention(Mechanic mechanic, WorkOrder workOrder,
-            LocalDateTime date, int minutes) {
-
-        this.mechanic = mechanic;
-        this.workOrder = workOrder;
-        this.date = date;
-        this.minutes = minutes;
-        Associations.Intervenes.link(workOrder, this, mechanic);
-
+        this(mechanic, workOrder, LocalDateTime.now(), minutes);
     }
 
     public LocalDateTime getDate() {
@@ -121,7 +112,7 @@ public class Intervention extends BaseEntity {
      */
     public double getAmount() {
         double time_amount = 0.0;
-        double sparepart_amount = minutes
+        double sparepart_amount = minutes / 60
                 * workOrder.getVehicle().getVehicleType().getPricePerHour();
         for (Substitution s : substitutions) {
             sparepart_amount += s.getAmount();

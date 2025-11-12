@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import uo.ri.cws.domain.base.BaseEntity;
+import uo.ri.util.assertion.ArgumentChecks;
 
 @Entity
 @Table(name = "TCONTRACTTYPES")
@@ -41,6 +42,16 @@ public class ContractType extends BaseEntity {
 
     public Set<Contract> getContracts() {
         return new HashSet<Contract>(contracts);
+    }
+
+    Set<Contract> _getContracts() {
+        return contracts;
+    }
+
+    public void setCompensationDaysPerYear(double compensationDaysPerYear) {
+        ArgumentChecks.isTrue(compensationDaysPerYear > 0);
+        updatedNow();
+        this.compensationDaysPerYear = compensationDaysPerYear;
     }
 
 }

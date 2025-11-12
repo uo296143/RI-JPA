@@ -44,6 +44,8 @@ public class UpdateContract implements Command<Void> {
         BusinessChecks.hasVersion(dto.version, contract.getVersion());
 
         if (isFixedTerm) {
+            BusinessChecks
+                .isFalse(dto.endDate.isBefore(contract.getStartDate()));
             contract.setEndDate(dto.endDate);
         }
         contract.setAnnualBaseSalary(dto.annualBaseSalary);

@@ -49,7 +49,6 @@ public class WorkOrder extends BaseEntity {
         super();
         ArgumentChecks.isNotNull(vehicle, "Invalid null vehicle");
         ArgumentChecks.isNotNull(date, "Invalid null date");
-        ArgumentChecks.isNotBlank(description, "Invalid description");
 
         this.date = date.truncatedTo(ChronoUnit.MILLIS);
         this.description = description;
@@ -62,12 +61,11 @@ public class WorkOrder extends BaseEntity {
     }
 
     public WorkOrder(Vehicle vehicle) {
-        this.vehicle = vehicle;
+        this(vehicle, LocalDateTime.now(), null);
     }
 
     public WorkOrder(Vehicle vehicle, LocalDateTime date) {
-        this.vehicle = vehicle;
-        this.date = date;
+        this(vehicle, date, null);
     }
 
     /**
@@ -84,7 +82,10 @@ public class WorkOrder extends BaseEntity {
             throw new IllegalStateException(
                     "The invoice must be finished to be invoiced");
         }
-        ArgumentChecks.isNotNull(invoice);
+        if (invoice == null) {
+            throw new IllegalStateException(
+                    "A WorOrder can`t be marked as invoiced without an invoice");
+        }
         state = WorkOrderState.INVOICED;
         updatedNow();
     }
@@ -98,11 +99,24 @@ public class WorkOrder extends BaseEntity {
      *                               state, or
      */
     public void markAsFinished() {
-        if (!isAssigned()) {
+        if (!state.equals(WorkOrderState.ASSIGNED)) {
             throw new IllegalStateException();
         }
-        Associations.Bills.unlink(invoice, this);
+        Associations.Assigns.unlink(mechanic, this);
         state = WorkOrderState.FINISHED;
+        computeAmount();
+    }
+
+    /*
+     * Compute total amount of the workOrder by all the interventions.
+     */
+    private void computeAmount() {
+        double total_amount = 0.0;
+        for (Intervention i : interventions) {
+            total_amount += i.getAmount();
+        }
+        amount = total_amount;
+
     }
 
     /**
@@ -130,7 +144,12 @@ public class WorkOrder extends BaseEntity {
      *                               or
      */
     public void assignTo(Mechanic mechanic) {
-
+        ArgumentChecks.isNotNull(mechanic);
+        if (!state.equals(WorkOrderState.OPEN)) {
+            throw new IllegalStateException();
+        }
+        Associations.Assigns.link(mechanic, this);
+        state = WorkOrderState.ASSIGNED;
     }
 
     /**
@@ -142,7 +161,11 @@ public class WorkOrder extends BaseEntity {
      *                               state
      */
     public void unassign() {
-
+        if (!state.equals(WorkOrderState.ASSIGNED)) {
+            throw new IllegalStateException();
+        }
+        Associations.Assigns.unlink(mechanic, this);
+        state = WorkOrderState.OPEN;
     }
 
     /**
@@ -154,7 +177,10 @@ public class WorkOrder extends BaseEntity {
      *                               state
      */
     public void reopen() {
-
+        if (!state.equals(WorkOrderState.FINISHED)) {
+            throw new IllegalStateException();
+        }
+        state = WorkOrderState.OPEN;
     }
 
     public Set<Intervention> getInterventions() {
@@ -205,11 +231,7 @@ public class WorkOrder extends BaseEntity {
     }
 
     public double getAmount() {
-        double total_amount = 0.0;
-        for (Intervention i : interventions) {
-            total_amount += i.getAmount();
-        }
-        return total_amount;
+        return amount;
     }
 
     public boolean isAssigned() {
@@ -234,11 +256,6 @@ public class WorkOrder extends BaseEntity {
 
     public WorkOrderState getState() {
         return state;
-    }
-
-    public void setState(WorkOrderState state) {
-        updatedNow();
-        this.state = state;
     }
 
 }

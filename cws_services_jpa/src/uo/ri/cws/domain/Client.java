@@ -102,7 +102,11 @@ public class Client extends BaseEntity {
     }
 
     public Set<PaymentMean> getPaymentMeans() {
-        return Set.copyOf(paymentMeans);
+        return new HashSet<PaymentMean>(paymentMeans);
+    }
+
+    Set<PaymentMean> _getPaymentMeans() {
+        return paymentMeans;
     }
 
     public void setAddress(Address address) {
