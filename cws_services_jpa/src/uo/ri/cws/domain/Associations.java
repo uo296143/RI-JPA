@@ -89,11 +89,11 @@ public class Associations {
 
         public static void link(Mechanic mechanic, WorkOrder workOrder) {
             workOrder._setMechanic(mechanic);
-            mechanic._getWorkOrders().add(workOrder);
+            mechanic._getAssigned().add(workOrder);
         }
 
         public static void unlink(Mechanic mechanic, WorkOrder workOrder) {
-            mechanic._getWorkOrders().remove(workOrder);
+            mechanic._getAssigned().remove(workOrder);
             workOrder._setMechanic(null);
         }
     }
@@ -103,24 +103,23 @@ public class Associations {
         public static void link(WorkOrder workOrder, Intervention intervention,
                 Mechanic mechanic) {
             intervention._setWorkOrder(workOrder);
-            intervention._setMechanic(mechanic);
             workOrder._getInterventions().add(intervention);
+            intervention._setMechanic(mechanic);
             mechanic._getInterventions().add(intervention);
-            mechanic._getWorkOrders().add(workOrder);
-            workOrder._setMechanic(mechanic);
+                 
         }
 
         public static void unlink(Intervention intervention) {
-            intervention.getWorkOrder()._setMechanic(null);
-            intervention.getMechanic()
-                ._getWorkOrders()
-                .remove(intervention.getWorkOrder());
             intervention.getMechanic()._getInterventions().remove(intervention);
-            intervention.getWorkOrder()
-                ._getInterventions()
-                .remove(intervention);
             intervention._setMechanic(null);
+            intervention.getWorkOrder()
+            ._getInterventions()
+            .remove(intervention);
             intervention._setWorkOrder(null);
+
+
+      
+           
 
         }
     }

@@ -48,23 +48,6 @@ public class CreditCard extends PaymentMean {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(number);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        CreditCard other = (CreditCard) obj;
-        return Objects.equals(number, other.number);
-    }
-
-    @Override
     public String toString() {
         return "CreditCard [number=" + number + ", type=" + type
                 + ", validThru=" + validThru + "]";

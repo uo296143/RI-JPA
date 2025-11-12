@@ -232,6 +232,9 @@ public class Contract extends BaseEntity {
     private void computeSettlementIfRequired() {
         long days_between_star_and_end = ChronoUnit.DAYS.between(startDate,
                 endDate);
+        
+        days_between_star_and_end += 1;
+    
         if (days_between_star_and_end >= 365) {
 
             double settlement = computeSettlement();
@@ -248,7 +251,7 @@ public class Contract extends BaseEntity {
 
         double gross_salary = 0.0;
         long days_between_star_and_end = ChronoUnit.DAYS.between(startDate,
-                endDate);
+                endDate) +1;
 
         // Fecha desde la que se inicia a contar la media del salario medio
         // bruto

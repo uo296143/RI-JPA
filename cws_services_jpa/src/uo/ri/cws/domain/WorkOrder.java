@@ -102,7 +102,11 @@ public class WorkOrder extends BaseEntity {
         if (!state.equals(WorkOrderState.ASSIGNED)) {
             throw new IllegalStateException();
         }
+        
+        
         Associations.Assigns.unlink(mechanic, this);
+        
+        
         state = WorkOrderState.FINISHED;
         computeAmount();
     }

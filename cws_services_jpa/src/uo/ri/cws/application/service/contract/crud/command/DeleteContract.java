@@ -28,7 +28,7 @@ public class DeleteContract implements Command<Void> {
         Optional<Contract> optionalContract = contract_repo.findById(id);
         BusinessChecks.exists(optionalContract);
         Contract contract = optionalContract.get();
-        BusinessChecks.isTrue(contract.getMechanic().getWorkOrders().isEmpty());
+        BusinessChecks.isTrue(contract.getMechanic().getAssigned().isEmpty());
         BusinessChecks
             .isTrue(contract.getMechanic().getInterventions().isEmpty());
         BusinessChecks.isTrue(contract.getPayrolls().isEmpty());

@@ -1,6 +1,5 @@
 package uo.ri.cws.infrastructure.persistence.jpa.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import uo.ri.cws.application.repository.MechanicRepository;
@@ -22,13 +21,13 @@ public class MechanicJpaRepository extends BaseJpaRepository<Mechanic>
 
     }
 
-    @Override
-    public List<Mechanic> findAll() {
-
-        return Jpa.getManager()
-            .createNamedQuery("Mechanic.findAll", Mechanic.class)
-            .getResultList();
-
-    }
+//    @Override
+//    public List<Mechanic> findAll() {
+//
+//        return Jpa.getManager()
+//            .createNamedQuery("Mechanic.findAll", Mechanic.class)
+//            .getResultList();
+//
+//    }
 
 }

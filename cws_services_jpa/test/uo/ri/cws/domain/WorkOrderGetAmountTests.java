@@ -183,5 +183,7 @@ class WorkOrderGetAmountTests {
 		SparePart sp = new SparePart("R1001", "junta la trocla", EUR_100);
 		new Substitution(sp, i, NUM_OF_SPARES);
 	}
+	
+	
 
 }

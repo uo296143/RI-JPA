@@ -33,6 +33,7 @@ public class UpdateMechanic implements Command<Void> {
         BusinessChecks.hasVersion(dto.version, m.getVersion());
         m.setName(dto.name);
         m.setSurname(dto.surname);
+        m.updatedNow();
 
         return null;
     }

@@ -85,13 +85,13 @@ public class Mechanic extends BaseEntity {
                 + interventions + "]";
     }
 
-    Set<WorkOrder> _getWorkOrders() {
-        return assigned;
-    }
-
-    public Set<WorkOrder> getWorkOrders() {
-        return new HashSet<WorkOrder>(assigned);
-    }
+//    Set<WorkOrder> _getWorkOrders() {
+//        return assigned;
+//    }
+//
+//    public Set<WorkOrder> getWorkOrders() {
+//        return new HashSet<WorkOrder>(assigned);
+//    }
 
     public void setName(String name) {
         ArgumentChecks.isNotBlank(name, "Invalid null or blank name");
