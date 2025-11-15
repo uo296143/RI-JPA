@@ -1,19 +1,21 @@
 package uo.ri.cws.domain;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
 
 @Entity
 @Table(name = "TSPAREPARTS")
 public class SparePart extends BaseEntity {
+
+    @Transient
     private String ERROR_MSG = "Invalid";
     @Column(unique = true)
     private String code;

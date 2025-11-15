@@ -21,8 +21,12 @@ public class WorkOrderJpaRepository extends BaseJpaRepository<WorkOrder>
 
     @Override
     public List<WorkOrder> findByClientNif(String nif) {
-        // TODO Auto-generated method stub
-        return null;
+
+        return Jpa.getManager()
+            .createNamedQuery("WorkOrder.findByClientNif", WorkOrder.class)
+            .setParameter(1, nif)
+            .getResultList();
+
     }
 
     @Override
@@ -39,8 +43,12 @@ public class WorkOrderJpaRepository extends BaseJpaRepository<WorkOrder>
 
     @Override
     public List<WorkOrder> findByPlateNumber(String plate) {
-        // TODO Auto-generated method stub
-        return null;
+
+        return Jpa.getManager()
+            .createNamedQuery("WorkOrder.findByPlate", WorkOrder.class)
+            .setParameter(1, plate)
+            .getResultList();
+
     }
 
 }

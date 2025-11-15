@@ -54,9 +54,10 @@ public class CreateInvoiceFor implements Command<InvoiceDto> {
         List<WorkOrder> work_orders = new ArrayList<WorkOrder>();
         for (String id : workOrderIds) {
             Optional<WorkOrder> w = work_order_repo.findById(id);
-            BusinessChecks.isFalse(w.isEmpty());
-            BusinessChecks
-                .isTrue(w.get().getState().equals(WorkOrderState.FINISHED));
+            BusinessChecks.isFalse(w.isEmpty(), "A workorder doesn´t exist");
+            BusinessChecks.isTrue(
+                    w.get().getState().equals(WorkOrderState.FINISHED),
+                    "A wokorder is not in FINISHED state");
             work_orders.add(w.get());
         }
 

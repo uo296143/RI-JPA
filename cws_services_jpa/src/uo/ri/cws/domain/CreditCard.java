@@ -1,7 +1,6 @@
 package uo.ri.cws.domain;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

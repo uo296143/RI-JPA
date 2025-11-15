@@ -21,13 +21,4 @@ public class MechanicJpaRepository extends BaseJpaRepository<Mechanic>
 
     }
 
-//    @Override
-//    public List<Mechanic> findAll() {
-//
-//        return Jpa.getManager()
-//            .createNamedQuery("Mechanic.findAll", Mechanic.class)
-//            .getResultList();
-//
-//    }
-
 }

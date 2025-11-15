@@ -24,11 +24,15 @@ public class DeleteMechanic implements Command<Void> {
     public Void execute() throws BusinessException {
 
         Optional<Mechanic> optional_m = mechanic_repo.findById(mechanicId);
-        BusinessChecks.exists(optional_m);
+        BusinessChecks.exists(optional_m,
+                "The mechanic doesn´t exist so you can´t delete it");
         Mechanic m = optional_m.get();
-        BusinessChecks.isTrue(m.getInterventions().isEmpty());
-        BusinessChecks.isTrue(m.getAssigned().isEmpty());
-        BusinessChecks.isTrue(m.getContracts().isEmpty());
+        BusinessChecks.isTrue(m.getInterventions().isEmpty(),
+                "You can´t delete the mechanic because it has interventions");
+        BusinessChecks.isTrue(m.getAssigned().isEmpty(),
+                "You can´t delete the mechanic because it has work orders");
+        BusinessChecks.isTrue(m.getContracts().isEmpty(),
+                "You can´t delete the mechanic because it has contracts");
 
         mechanic_repo.remove(m);
         return null;

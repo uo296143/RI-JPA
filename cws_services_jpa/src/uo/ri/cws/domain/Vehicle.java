@@ -29,6 +29,17 @@ public class Vehicle extends BaseEntity {
 
     }
 
+    public Vehicle(String plateNumber, String make, String model) {
+        super();
+        this.plateNumber = plateNumber;
+        this.make = make;
+        this.model = model;
+    }
+
+    public Vehicle(String plateNumber) {
+        this.plateNumber = plateNumber;
+    }
+
     void _setClient(Client client) {
         this.client = client;
     }
@@ -47,17 +58,6 @@ public class Vehicle extends BaseEntity {
 
     public String getModel() {
         return model;
-    }
-
-    public Vehicle(String plateNumber, String make, String model) {
-        super();
-        this.plateNumber = plateNumber;
-        this.make = make;
-        this.model = model;
-    }
-
-    public Vehicle(String plateNumber) {
-        this.plateNumber = plateNumber;
     }
 
     @Override

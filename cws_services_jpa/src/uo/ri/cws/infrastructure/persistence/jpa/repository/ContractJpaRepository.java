@@ -14,15 +14,6 @@ import uo.ri.util.date.Dates;
 public class ContractJpaRepository extends BaseJpaRepository<Contract>
         implements ContractRepository {
 
-//    @Override
-//    public List<Contract> findAll() {
-//
-//        return Jpa.getManager()
-//            .createNamedQuery("Contract.findAll", Contract.class)
-//            .getResultList();
-//
-//    }
-
     @Override
     public List<Contract> findAllInForce() {
 
@@ -62,8 +53,11 @@ public class ContractJpaRepository extends BaseJpaRepository<Contract>
 
     @Override
     public List<Contract> findInforceContracts() {
-        // TODO Auto-generated method stub
-        return null;
+
+        return Jpa.getManager()
+            .createNamedQuery("Contract.findAllInForce", Contract.class)
+            .getResultList();
+
     }
 
     @Override

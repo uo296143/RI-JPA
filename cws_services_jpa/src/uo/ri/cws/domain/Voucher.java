@@ -14,6 +14,12 @@ public class Voucher extends PaymentMean {
 
     }
 
+    public Voucher(String code, String description, double available) {
+        this.code = code;
+        this.description = description;
+        this.available = available;
+    }
+
     public String getCode() {
         return code;
     }
@@ -24,12 +30,6 @@ public class Voucher extends PaymentMean {
 
     public String getDescription() {
         return description;
-    }
-
-    public Voucher(String code, String description, double available) {
-        this.code = code;
-        this.description = description;
-        this.available = available;
     }
 
     /**

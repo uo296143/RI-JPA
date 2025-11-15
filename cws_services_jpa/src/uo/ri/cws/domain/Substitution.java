@@ -65,6 +65,7 @@ public class Substitution extends BaseEntity {
 
     public double getAmount() {
         return quantity * sparePart.getPrice();
+
     }
 
 }

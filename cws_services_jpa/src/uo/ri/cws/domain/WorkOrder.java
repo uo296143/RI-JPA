@@ -29,7 +29,7 @@ public class WorkOrder extends BaseEntity {
     private String description;
     private double amount = 0.0;
     @Enumerated(EnumType.STRING)
-    private WorkOrderState state = WorkOrderState.OPEN;
+    private WorkOrderState state;
 
     // accidental attributes
     @ManyToOne
@@ -52,6 +52,7 @@ public class WorkOrder extends BaseEntity {
 
         this.date = date.truncatedTo(ChronoUnit.MILLIS);
         this.description = description;
+        this.state = WorkOrderState.OPEN;
         Associations.Fixes.link(vehicle, this);
 
     }
@@ -102,11 +103,9 @@ public class WorkOrder extends BaseEntity {
         if (!state.equals(WorkOrderState.ASSIGNED)) {
             throw new IllegalStateException();
         }
-        
-        
+
         Associations.Assigns.unlink(mechanic, this);
-        
-        
+
         state = WorkOrderState.FINISHED;
         computeAmount();
     }
@@ -196,17 +195,14 @@ public class WorkOrder extends BaseEntity {
     }
 
     void _setVehicle(Vehicle vehicle) {
-        updatedNow();
         this.vehicle = vehicle;
     }
 
     void _setMechanic(Mechanic mechanic) {
-        updatedNow();
         this.mechanic = mechanic;
     }
 
     void _setInvoice(Invoice invoice) {
-        updatedNow();
         this.invoice = invoice;
     }
 

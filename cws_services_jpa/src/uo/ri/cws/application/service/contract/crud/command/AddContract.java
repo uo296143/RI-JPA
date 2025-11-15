@@ -40,10 +40,14 @@ public class AddContract implements Command<ContractDto> {
         ArgumentChecks.isNotEmpty(dto.professionalGroup.name);
         ArgumentChecks.isNotBlank(dto.professionalGroup.name);
         ArgumentChecks.isNotNull(dto.annualBaseSalary);
-        ArgumentChecks.isTrue(dto.annualBaseSalary > 0);
+        ArgumentChecks.isTrue(dto.annualBaseSalary > 0,
+                "Annual base salary must be greater than zero");
         ArgumentChecks.isFalse(dto.contractType.name.equals("FIXED_TERM")
                 && dto.endDate == null);
 
+        // Se establece la fecha de inicio del contrato la cuál será el primer
+        // día del próximo mes
+        dto.startDate = LocalDate.now().plusMonths(1).withDayOfMonth(1);
         this.dto = dto;
     }
 
@@ -59,13 +63,16 @@ public class AddContract implements Command<ContractDto> {
         Optional<Mechanic> optionalMechanic = mechanic_repo
             .findByNif(dto.mechanic.nif);
 
-        BusinessChecks.exists(optionalContractType);
-        BusinessChecks.exists(optionalProfessionalGroup);
-        BusinessChecks.exists(optionalMechanic);
+        BusinessChecks.exists(optionalContractType,
+                "The contract type doesn´t exist");
+        BusinessChecks.exists(optionalProfessionalGroup,
+                "The professional group doesn´t exist");
+        BusinessChecks.exists(optionalMechanic, "The mechanic doesn´t exist");
 
         // Comprobación de fechas si es contrato es FIXED_TERM
         if (dto.endDate != null) {
-            BusinessChecks.isTrue(dto.startDate.isBefore(dto.endDate));
+            BusinessChecks.isTrue(dto.startDate.isBefore(dto.endDate),
+                    "End date can´t be earlier start date");
         }
 
         ContractType contractType = optionalContractType.get();
@@ -81,7 +88,8 @@ public class AddContract implements Command<ContractDto> {
         }
 
         Contract contract = new Contract(mechanic, contractType,
-                professionalGroup, dto.annualBaseSalary);
+                professionalGroup, dto.startDate, dto.endDate,
+                dto.annualBaseSalary);
 
         contract_repo.add(contract);
 

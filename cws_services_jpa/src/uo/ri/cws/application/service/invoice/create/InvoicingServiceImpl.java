@@ -25,7 +25,9 @@ public class InvoicingServiceImpl implements InvoicingService {
     @Override
     public List<InvoicingWorkOrderDto> findWorkOrdersByClientNif(String nif)
             throws BusinessException {
-        throw new NotYetImplementedException();
+
+        return executor.execute(new FindNotInvoicedWorkOrdersByClientNif(nif));
+
     }
 
     @Override

@@ -26,12 +26,15 @@ public class DeleteContract implements Command<Void> {
     public Void execute() throws BusinessException {
 
         Optional<Contract> optionalContract = contract_repo.findById(id);
-        BusinessChecks.exists(optionalContract);
+        BusinessChecks.exists(optionalContract, "The contract doesn´t exist");
         Contract contract = optionalContract.get();
-        BusinessChecks.isTrue(contract.getMechanic().getAssigned().isEmpty());
-        BusinessChecks
-            .isTrue(contract.getMechanic().getInterventions().isEmpty());
-        BusinessChecks.isTrue(contract.getPayrolls().isEmpty());
+        BusinessChecks.isTrue(contract.getMechanic().getAssigned().isEmpty(),
+                "The mechanic has workorders");
+        BusinessChecks.isTrue(
+                contract.getMechanic().getInterventions().isEmpty(),
+                "The mechanic has interventions");
+        BusinessChecks.isTrue(contract.getPayrolls().isEmpty(),
+                "The contract has payrolls");
         contract_repo.remove(optionalContract.get());
 
         return null;

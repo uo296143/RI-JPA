@@ -3,6 +3,7 @@ package uo.ri.cws.domain;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -36,13 +37,10 @@ public class Payroll extends BaseEntity {
 
     }
 
-//    public Payroll(String id) {
-//        // Associations.
-//    }
-
     public Payroll(Contract c, LocalDate date) {
         ArgumentChecks.isNotNull(c);
         ArgumentChecks.isNotNull(date);
+        ArgumentChecks.isFalse(date.isBefore(c.getStartDate()));
         this.contract = c;
         this.date = date;
         // 1. Abonos (Earnings)
@@ -53,12 +51,11 @@ public class Payroll extends BaseEntity {
         // pasa como argumento,
         // ya que depende de workorders facturadas (lógica de
         // servicio/repositorio).
-        double productivityBonus = 0;
+        double productivityBonus = computeProductivityBonus();
         this.productivityEarning = round(productivityBonus,
                 DECIMAL_PLACES_EARNINGS_DEDUCTIONS);
-        int trienniums = 0;
-        this.trienniumEarning = calculateTrienniumEarning(
-                c.getProfessionalGroup().getTrienniumPayment(), trienniums);
+        double trienniums = computeTrienniums();
+        this.trienniumEarning = trienniums;
 
         // 2. Cálculo del Salario Bruto (Gross Salary)
         double grossSalary = getGrossSalary();
@@ -69,7 +66,30 @@ public class Payroll extends BaseEntity {
         Associations.Generates.link(this, c);
     }
 
-    // --- Lógica de Cálculo de Nómina ---
+    /*
+     * 
+     */
+    private double computeTrienniums() {
+
+        long fullYearsElapsed = ChronoUnit.YEARS
+            .between(contract.getStartDate(), date);
+        int numberOfTrienniums = (int) (fullYearsElapsed / 3);
+        return contract.getProfessionalGroup().getTrienniumPayment()
+                * numberOfTrienniums;
+    }
+
+    /*
+     * 
+     */
+    private double computeProductivityBonus() {
+
+        double percentage = contract.getProfessionalGroup()
+            .getProductivityRate();
+        double total_amount = contract.getMechanic()
+            .getSumOfWorkOrdersAlreadyInvoiced(date.getMonth());
+
+        return percentage * total_amount;
+    }
 
     private double calculateExtraSalary(LocalDate payrollDate,
             double monthlyBaseSalary) {
@@ -79,14 +99,6 @@ public class Payroll extends BaseEntity {
             return round(monthlyBaseSalary, DECIMAL_PLACES_EARNINGS_DEDUCTIONS);
         }
         return 0.0;
-    }
-
-    private double calculateTrienniumEarning(double trienniumAmount,
-            int trienniums) {
-        // Se asume que el número de trienios se calcula fuera y se pasa al
-        // constructor
-        return round(trienniumAmount * trienniums,
-                DECIMAL_PLACES_EARNINGS_DEDUCTIONS);
     }
 
     private double calculateNicDeduction(double annualBaseSalary) {

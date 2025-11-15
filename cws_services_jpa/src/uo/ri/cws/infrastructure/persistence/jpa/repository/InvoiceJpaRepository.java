@@ -12,8 +12,13 @@ public class InvoiceJpaRepository extends BaseJpaRepository<Invoice>
 
     @Override
     public Optional<Invoice> findByNumber(Long number) {
-        // TODO Auto-generated method stub
-        return null;
+
+        return Jpa.getManager()
+            .createNamedQuery("Invoice.findByNumber", Invoice.class)
+            .setParameter(1, number)
+            .getResultStream()
+            .findFirst();
+
     }
 
     @Override

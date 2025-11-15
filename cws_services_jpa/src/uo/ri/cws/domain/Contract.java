@@ -156,12 +156,10 @@ public class Contract extends BaseEntity {
     }
 
     public void setAnnualBaseSalary(double annualBaseSalary) {
-        updatedNow();
         this.annualBaseSalary = annualBaseSalary;
     }
 
     public void setEndDate(LocalDate endDate) {
-        updatedNow();
         this.endDate = endDate;
     }
 
@@ -190,17 +188,17 @@ public class Contract extends BaseEntity {
     }
 
     void _setContractType(ContractType contractType) {
-        updatedNow();
+        ArgumentChecks.isNotNull(contractType);
         this.contractType = contractType;
     }
 
     void _setMechanic(Mechanic mechanic) {
-        updatedNow();
+        ArgumentChecks.isNotNull(mechanic);
         this.mechanic = mechanic;
     }
 
     void _setProfessionalGroup(ProfessionalGroup pg) {
-        updatedNow();
+        ArgumentChecks.isNotNull(pg);
         this.professionalGroup = pg;
     }
 
@@ -231,10 +229,8 @@ public class Contract extends BaseEntity {
      */
     private void computeSettlementIfRequired() {
         long days_between_star_and_end = ChronoUnit.DAYS.between(startDate,
-                endDate);
-        
-        days_between_star_and_end += 1;
-    
+                endDate) + 1;
+
         if (days_between_star_and_end >= 365) {
 
             double settlement = computeSettlement();
@@ -251,13 +247,11 @@ public class Contract extends BaseEntity {
 
         double gross_salary = 0.0;
         long days_between_star_and_end = ChronoUnit.DAYS.between(startDate,
-                endDate) +1;
+                endDate) + 1;
 
         // Fecha desde la que se inicia a contar la media del salario medio
         // bruto
-        // Si pongo 12 pasan los test de Domain y 13 pasan los de RunCucumber
-        LocalDate dateOneYearAgo = endDate.minusMonths(12);
-
+        LocalDate dateOneYearAgo = endDate.minusMonths(12).minusDays(1);
         for (Payroll payroll : payrolls) {
 
             if (!payroll.getDate().isBefore(dateOneYearAgo)
@@ -280,6 +274,10 @@ public class Contract extends BaseEntity {
 
     public boolean isTerminated() {
         return state.equals(ContractState.TERMINATED);
+    }
+
+    public boolean isFixedTerm() {
+        return contractType.getName().equals("FIXED_TERM");
     }
 
     Set<Payroll> _getPayrolls() {

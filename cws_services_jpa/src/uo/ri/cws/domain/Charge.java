@@ -56,6 +56,7 @@ public class Charge extends BaseEntity {
         return invoice;
     }
 
+    @SuppressWarnings("unused")
     private void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
@@ -64,6 +65,7 @@ public class Charge extends BaseEntity {
         return paymentMean;
     }
 
+    @SuppressWarnings("unused")
     private void setPaymentMean(PaymentMean paymentMean) {
         this.paymentMean = paymentMean;
     }

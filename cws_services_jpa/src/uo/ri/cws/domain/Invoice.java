@@ -28,7 +28,7 @@ public class Invoice extends BaseEntity {
     private double amount;
     private double vat;
     @Enumerated(EnumType.STRING)
-    private InvoiceState state = InvoiceState.NOT_YET_PAID;
+    private InvoiceState state;
 
     // accidental attributes
     @OneToMany(mappedBy = "invoice")
@@ -40,33 +40,29 @@ public class Invoice extends BaseEntity {
 
     }
 
+    // full constructor
+    public Invoice(Long number, LocalDate date, List<WorkOrder> workOrders) {
+        ArgumentChecks.isNotNull(number, "Invalid null number");
+        ArgumentChecks.isNotNull(date, "Invalid null date");
+        ArgumentChecks.isNotNull(workOrders, "Invalid null workorders");
+        this.date = date;
+        this.state = InvoiceState.NOT_YET_PAID;
+        this.number = number;
+        for (WorkOrder wo : workOrders) {
+            addWorkOrder(wo);
+        }
+    }
+
     public Invoice(Long number) {
-        // call full constructor with sensible defaults
         this(number, LocalDate.now(), List.of());
     }
 
     public Invoice(Long number, LocalDate date) {
-        // call full constructor with sensible defaults
         this(number, date, List.of());
     }
 
     public Invoice(Long number, List<WorkOrder> workOrders) {
         this(number, LocalDate.now(), workOrders);
-    }
-
-    // full constructor
-    public Invoice(Long number, LocalDate date, List<WorkOrder> workOrders) {
-        // check arguments (always), through IllegalArgumentException
-        // store the number
-        // add every work order calling addWorkOrder( w )
-        ArgumentChecks.isNotNull(number, "Invalid null number");
-        ArgumentChecks.isNotNull(date, "Invalid null date");
-        ArgumentChecks.isNotNull(workOrders, "Invalid null workorders");
-        this.date = date;
-        this.number = number;
-        for (WorkOrder wo : workOrders) {
-            addWorkOrder(wo);
-        }
     }
 
     /**
@@ -78,8 +74,8 @@ public class Invoice extends BaseEntity {
             .mapToDouble(WorkOrder::getAmount)
             .sum();
 
-        amount = Rounds
-            .toCents(total_without_vat + calculateVatAmount(total_without_vat));
+        vat = calculateVatAmount(total_without_vat);
+        amount = Rounds.toCents(total_without_vat + vat);
 
     }
 

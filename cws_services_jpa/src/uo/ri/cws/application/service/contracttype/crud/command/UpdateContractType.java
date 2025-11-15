@@ -36,6 +36,8 @@ public class UpdateContractType implements Command<Void> {
         BusinessChecks.hasVersion(dto.version, contractType.getVersion());
         contractType.setCompensationDaysPerYear(dto.compensationDays);
 
+        contractType.updatedNow();
+
         return null;
     }
 

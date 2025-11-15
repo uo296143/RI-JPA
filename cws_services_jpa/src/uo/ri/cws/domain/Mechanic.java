@@ -1,5 +1,6 @@
 package uo.ri.cws.domain;
 
+import java.time.Month;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -31,14 +32,6 @@ public class Mechanic extends BaseEntity {
 
     }
 
-    public Set<Contract> getContracts() {
-        return new HashSet<Contract>(contracts);
-    }
-
-    public Set<Contract> _getContracts() {
-        return contracts;
-    }
-
     public Mechanic(String nif, String name, String surname) {
         super();
         this.nif = nif;
@@ -48,6 +41,14 @@ public class Mechanic extends BaseEntity {
 
     public Mechanic(String nif) {
         this.nif = nif;
+    }
+
+    public Set<Contract> getContracts() {
+        return new HashSet<Contract>(contracts);
+    }
+
+    Set<Contract> _getContracts() {
+        return contracts;
     }
 
     public Set<WorkOrder> getAssigned() {
@@ -85,23 +86,13 @@ public class Mechanic extends BaseEntity {
                 + interventions + "]";
     }
 
-//    Set<WorkOrder> _getWorkOrders() {
-//        return assigned;
-//    }
-//
-//    public Set<WorkOrder> getWorkOrders() {
-//        return new HashSet<WorkOrder>(assigned);
-//    }
-
     public void setName(String name) {
         ArgumentChecks.isNotBlank(name, "Invalid null or blank name");
-        updatedNow();
         this.name = name;
     }
 
     public void setSurname(String surName) {
         ArgumentChecks.isNotBlank(surName, "Invalid null or blank surname");
-        updatedNow();
         this.surname = surName;
     }
 
@@ -115,4 +106,31 @@ public class Mechanic extends BaseEntity {
         return contract;
     }
 
+    /*
+     * Used for calculate payroll`s productivity bonus. Sums the total amounts
+     * of unique WorkOrders repaired by the mechanic, opened in the target
+     * month, and already invoiced.
+     */
+    public double getSumOfWorkOrdersAlreadyInvoiced(Month month) {
+        double total_amount = 0.0;
+
+        Set<WorkOrder> uniqueWorkOrders = new HashSet<>();
+
+        for (Intervention intervention : interventions) {
+
+            WorkOrder workOrder = intervention.getWorkOrder();
+
+            if (workOrder.getDate().getMonth().equals(month)
+                    && workOrder.isInvoiced()) {
+
+                uniqueWorkOrders.add(workOrder);
+            }
+        }
+
+        for (WorkOrder workOrder : uniqueWorkOrders) {
+            total_amount += workOrder.getAmount();
+        }
+
+        return total_amount;
+    }
 }

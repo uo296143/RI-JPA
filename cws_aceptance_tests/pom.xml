@@ -26,12 +26,8 @@
 	<dependencies>
 		
 		<dependency>
-			<groupId>uo.ri</groupId>
-<!--			
-			<artifactId>cws_services_jpa</artifactId>
-			<artifactId>cws_services_jdbc</artifactId>
--->
-			<artifactId>cws_services_jpa</artifactId>
+			<groupId>uo.ri</groupId>		
+			<artifactId>jpa_cws_UO296143</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

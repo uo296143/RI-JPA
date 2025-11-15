@@ -3,7 +3,6 @@ package uo.ri.cws.domain;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -16,7 +15,8 @@ import uo.ri.util.assertion.ArgumentChecks;
 
 @Entity
 @Table(name = "TINTERVENTIONS", uniqueConstraints = {
-        @UniqueConstraint(columnNames = { "mechanic", "workOrder", "date" }) })
+        @UniqueConstraint(columnNames = { "mechanic_id", "workOrder_id",
+                "date" }) })
 public class Intervention extends BaseEntity {
 
     // natural attributes

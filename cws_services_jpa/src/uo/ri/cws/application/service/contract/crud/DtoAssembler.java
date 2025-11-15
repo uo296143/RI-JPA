@@ -1,5 +1,6 @@
 package uo.ri.cws.application.service.contract.crud;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uo.ri.cws.application.service.contract.ContractCrudService.ContractDto;
@@ -56,6 +57,9 @@ public class DtoAssembler {
     }
 
     public static List<ContractDto> toDtoList(List<Contract> contracts) {
+        if (contracts == null) {
+            return new ArrayList<ContractDto>();
+        }
         return contracts.stream().map(c -> toDto(c)).toList();
     }
 
